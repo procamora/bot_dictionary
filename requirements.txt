@@ -1,0 +1,5 @@
+pyTelegramBotAPI
+colorlog
+procamora_utils
+requests
+unidecode
