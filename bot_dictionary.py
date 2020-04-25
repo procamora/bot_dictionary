@@ -202,23 +202,7 @@ def set_en(message: types.Message) -> NoReturn:
                      reply_markup=get_markup_cmd())
         return
 
-    regex: Text = r'^(([a-z]+),?)+$'
-    fail: bool = False
-    if not re.search(regex, msg[2], re.IGNORECASE):
-        bot.reply_to(message, f'{msg[2]} does not satisfy the regex: {regex}\n', reply_markup=get_markup_cmd())
-        fail = True
-    if not re.search(regex, msg[1], re.IGNORECASE):
-        bot.reply_to(message, f'{msg[1]} does not satisfy the regex: {regex}\n', reply_markup=get_markup_cmd())
-        fail = True
-    if fail:  # show all errors before exit
-        return
-
-    word: Word = Word(0, msg[2].split(','), msg[1].split(','))  # id=0 nor use in insert
-    insert: Text = insert_word(word)
-    if re.search('UNIQUE constraint failed', insert, re.IGNORECASE):
-        bot.reply_to(message, f'The word {word.get_str_english()} is already stored', reply_markup=get_markup_cmd())
-    else:
-        bot.reply_to(message, f'insert: {word}', reply_markup=get_markup_cmd())
+    add_word(message, msg[1], msg[2])
     return
 
 
@@ -232,18 +216,23 @@ def set_es(message: types.Message) -> NoReturn:
                      reply_markup=get_markup_cmd())
         return
 
+    add_word(message, msg[2], msg[1])
+    return
+
+
+def add_word(message: types.Message, english: Text, spanish: Text) -> NoReturn:
     regex: Text = r'^(([a-z]+),?)+$'
     fail: bool = False
-    if not re.search(regex, msg[1], re.IGNORECASE):
-        bot.reply_to(message, f'{msg[1]} does not satisfy the regex: {regex}\n', reply_markup=get_markup_cmd())
+    if not re.search(regex, english, re.IGNORECASE):
+        bot.reply_to(message, f'{english} does not satisfy the regex: {regex}\n', reply_markup=get_markup_cmd())
         fail = True
-    if not re.search(regex, msg[2], re.IGNORECASE):
-        bot.reply_to(message, f'{msg[2]} does not satisfy the regex: {regex}\n', reply_markup=get_markup_cmd())
+    if not re.search(regex, spanish, re.IGNORECASE):
+        bot.reply_to(message, f'{spanish} does not satisfy the regex: {regex}\n', reply_markup=get_markup_cmd())
         fail = True
     if fail:  # show all errors before exit
         return
 
-    word: Word = Word(0, msg[1].split(','), msg[2].split(','))  # id=0 nor use in insert
+    word: Word = Word(0, spanish.split(','), english.split(','))  # id=0 nor use in insert
     insert: Text = insert_word(word)
     if re.search('UNIQUE constraint failed', insert, re.IGNORECASE):
         bot.reply_to(message, f'The word {word.get_str_spanish()} is already stored', reply_markup=get_markup_cmd())

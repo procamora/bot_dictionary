@@ -1,1 +1,1 @@
-# bot_common_ports
+# bot_dictionary
