@@ -4,8 +4,7 @@ After=multi-user.target
 
 [Service]
 Type=idle
-ExecStart=/usr/bin/python3 /home/pi/bot_dictionary/bot_dictionary.py >> /home/pi/bot_dictionary/tg_bot.log 2>&1
-ExecStop=killall -9 bot_dictionary.py
+ExecStart=/usr/bin/python3 /home/pi/bot_dictionary/bot_dictionary.py >> /home/pi/bot_dictionary/bot.log 2>&1
 User=pi
 
 [Install]

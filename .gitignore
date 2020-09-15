@@ -1,6 +1,6 @@
 
 settings.cfg
-ports.db
+dictionary.db
 .idea/
 
 # Byte-compiled / optimized / DLL files
